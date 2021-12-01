@@ -1,18 +1,29 @@
 # Scopul Aplicației
 
-Scopul final al proiectului este un aparat de cafea inteligent care va economisi timpul utilizatorilor. Făcând un “working backwards” de la nevoile acestora (vor să-și primească băutura cât mai rapid), am analizat și descoperit etape ce pot fi optimizate.
+Scopul final al proiectului este dezvoltarea softului unui aparat de cafea inteligent care va economisi timp utilizatorilor.
+Făcând un “working backwards” de la nevoile acestora (vor să-și primească băutura cât mai rapid), am analizat și descoperit etape ce pot fi optimizate.
 
 # Obiectivele aplicației
 
-Obiectivul aplicației este un aparat de cafea inteligent, capabil să recunoască persoana care vrea să-l folosească, și să-i ofere un set de băuturi preconfigurate (tipul de băutura, mărimea, cantitatea de zahăr) în baza unor preferințe setate sau ale istoricului utilizatorului. În acest mod, utilizatorul nu mai cheltuie timp, alegând el setările.
+Obiectivul aplicatiei este de-a transforma aparatele de cafea dintr-o cladire de birouri / spatiu public intr-un network inteligent de aparate interconectate. Obiectivele finale ale aplicatiei sunt:
+ * Nivelul de apa / lapte / cafea / zahar din fiecare aparat de cafea poate fi privit online cu ajutorul unor requesturi HTTP trimise controllerului aparatelor de cafea.
+ * Administratorul sa poata observa statistici despre folosirea cafelelor, cum ar fi histograme ale folosirii pe zi / aparat de cafea.
+ * Administratorul poate instala o masina de cafea noua doar conectand-o la retea, aceasta conectandu-se si configurand singura setarile inpuse de administrator.
+ * Administratorul poate adauga / modifica / sterge retete si bauturi de cafea, cum ar fi cantitatea de zahar, apa, cafea, lapte etc.
+ * Administratorul poate edita meniul principal al aparatelor de cafea, propunand de exemplu "bautura zilei", sau anunturi.
+ * Administratorul poate seta setari generale ale aparatului de cafea, cum ar fi temperatura la care aceasta este tinuta calda, daca aparatul face sau nu beep cand apesi pe butoane etc.
 
 # Grupuri țintă
 
-Grupul nostru țintă sunt oamenii care își vor băutura făcută la fel de fiecare dată și cât mai rapid.
+Grupul tinta sunt corporatiile mari, care dispun de zeci daca nu sute de aparate de cafea imprastiate in birouri, si al caror mentenanta necesita mult efort.
 
 ## Minimal Viable Product
 
-Întrucât partea esențială este maparea consumator - recomandare de băuturi, modul în care se recunoaște consumatorul este pe plan secundar. Astfel, MVP-ul este un aparat de cafea care poate primi un identificator al unui utilizator și să ofere lista de băuturi recomandate.
+MVP-ul consta din:
+ * Un server central, capabil sa comunice cu lumea exterioara prin HTTP, si cu aparatele de cafea prin MQTT
+ * Aparatul de cafea, capabil sa:
+    * Anunte regulat care sunt nivele de resurse ale aparatului catre server.
+    * Este capabil sa serveasca cafea bazandu-se pe o lista de retete salvate intern.
 
 ## Cerințe suplimentare
 
@@ -26,12 +37,20 @@ Grupul nostru țintă sunt oamenii care își vor băutura făcută la fel de fi
 
 ## Cerințe de development
 
-### Stocarea datelor:
-1. Crearea bazei de date
-1. Creare utilizatorilor cu permisiunile minime necesare pentru administrarea bazei de date
+### Stocarea datelor
 
-### Comunicare:
-1. Creare endpoint-urile de API
+Fiecare masina de cafea isi tine o micro-baza de date, cu lista retetelor, intr-un low-memeory db (see [this](https://stackoverflow.com/questions/47233562/key-value-store-in-python-for-possibly-100-gb-of-data-without-client-server)).
 
-### Procesarea datelor:
+Serverul central are o baza de date mai complexa, unde isi salveza statistici despre masinile de cafea, si eventuri.
+
+Datele masinilor de cafea se sincronizeaza automat cu serverul central, si serverul central poate fi alterat numai de persone autorizate (care detin un token hardcodat in server) prin HTTP.
+
+### Comunicare
+
+Pentru comunicare, trebuie puse la punct:
+ 1. Topicurile MQTT pe care le folosesc aparatele de cafea.
+ 2. API-ul folosit de serverul central.
+
+### Procesarea datelor
+
 1. Implementarea funcțiilor ce administrarea căile API-ului
