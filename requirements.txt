@@ -1,0 +1,15 @@
+####################################
+#                                  #
+#       Python requirements        #
+#                                  #
+####################################
+
+# MQTT engine - see https://pypi.org/project/paho-mqtt/
+paho-mqtt
+
+# Mongodb connector
+pymongo
+
+# FastAPI HTTP lib
+uvicorn[standard]
+fastapi
