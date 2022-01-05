@@ -1,6 +1,8 @@
 import pymongo
 
-myclient = pymongo.MongoClient("mongodb+srv://admin:SECRET_PASSWORD@cluster0.t96gc.mongodb.net/SmartForms?retryWrites=true&w=majority")
+_CLIENT = pymongo.MongoClient("mongodb+srv://admin:###CHECK-SECRETS-GOOGLE-DOCS###@cluster0.d83pb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
-database = myclient.get_database("SmartCoffeeMachine")
+_DATABASE = _CLIENT.get_database("SmartCoffeeMachine")
 
+# stores all of the available recipes
+recipes = _DATABASE.get_collection("Recipes")
