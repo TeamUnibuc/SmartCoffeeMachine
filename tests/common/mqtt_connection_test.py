@@ -7,7 +7,7 @@ import unittest
 
 
 class TestMqttConnection(unittest.TestCase):
-    def able_to_send_message(self):
+    def test_able_to_send_message(self):
         obj = mqtt_messages.MachineLevels()
         mqtt_connection.publish("some-random-path", obj)
 
