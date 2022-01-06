@@ -29,6 +29,8 @@ The structure of the DB is the following:
 
 ### Drinks
 
+**OUTDATED**
+
 ```JSON
 {
     "drink_name": "Expresso",
