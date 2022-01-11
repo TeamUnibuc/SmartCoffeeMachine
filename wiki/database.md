@@ -33,16 +33,15 @@ A drink is represented by the following JSON:
 
 ```JSON
 {
-    "drink_name": "Expresso",  // name of the coffee recipe or "Custom Drink" for 
-                               // custom made drinks
-    "drink_price": 4.0,  // (?) nu cred ca ne trb pret
-    "drink_description": "An expresso coffee", 
+    "drink_name": "Name of the coffee recipe or Custom Drink for custom made drinks",
+    "drink_price": "4.0 // nu cred ca ne trebuie",
+    "drink_description": "The description of the drink", 
     "preparation": {
-        "coffee_mg": 10,       // coffee quantity
-        "milk_mg": 12,         // milk quantity
-        "water_mg": 22,        // water quanity 
-        "sugar_mg": 11,        // sugar quantity
-        "milk_foam": true,     // with or without milk foam
+        "coffee_mg": "10 -> coffee quantity",
+        "milk_mg": "12 -> milk quantity",
+        "water_mg": "22 -> water quanity",
+        "sugar_mg": "11 -> sugar quantity",
+        "milk_foam": "true -> with or without milk foam",
     },
 }
 ```
