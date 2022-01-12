@@ -1,5 +1,13 @@
 # SmartCoffeeMachine
 
+## Start The Project
+
+ * Install `Docker` and `Docker-Compose`.
+ * Naviate in the root of the project.
+ * Run `$ docker-compose up -d`.
+
+## Intro
+
 As the name suggests, this is the brain for a smart coffee machine capable of supplying personalized drink recommendations.
 
 The project is implemented as part of an university assignment by:
