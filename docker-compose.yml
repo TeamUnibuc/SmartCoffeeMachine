@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+    server:
+        image: continuumio/anaconda3
+        volumes:
+            - .:/project
+        working_dir: /project/src
+        command: >
+          bash -c "/opt/conda/bin/pip3 install -r /project/requirements.txt
+          && /opt/conda/bin/python3 main.py server"
+    client:
+        image: continuumio/anaconda3
+        volumes:
+            - .:/project
+        working_dir: /project/src
+        command: >
+          bash -c "/opt/conda/bin/pip3 install -r /project/requirements.txt
+          && /opt/conda/bin/python3 main.py server"
