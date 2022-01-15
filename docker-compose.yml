@@ -16,4 +16,4 @@ services:
         working_dir: /project/src
         command: >
           bash -c "/opt/conda/bin/pip3 install -r /project/requirements.txt
-          && /opt/conda/bin/python3 main.py server"
+          && /opt/conda/bin/python3 main.py client"
