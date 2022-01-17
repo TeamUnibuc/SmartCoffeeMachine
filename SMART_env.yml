@@ -1,0 +1,10 @@
+# Conda environment for the lazy people among us
+
+name: SMART_env
+channels:
+  - conda-forge
+dependencies:
+  - python >= 3.9
+  - pip
+  - pip:
+    - -r requirements.txt
