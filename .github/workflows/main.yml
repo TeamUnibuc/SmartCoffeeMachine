@@ -28,7 +28,9 @@ jobs:
         python-version: 3.9
         
     - name: Check cwd
-      run: pwd
+      run: |
+        pwd
+        ls -la
       
     - name: Install PIP packages
       uses: py-actions/py-dependency-install@v3
