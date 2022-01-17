@@ -30,6 +30,7 @@ jobs:
     - name: Generate coverage report
       run: |
         pip install coverage
+        cd source
         coverage run -m unittest discover
         coverage xml
     - name: Upload coverage to Codecov
