@@ -14,5 +14,8 @@ pymongo
 uvicorn[standard]
 fastapi
 
+# Docker
+dnspython
+
 # Testing
 coverage
