@@ -1,6 +1,6 @@
 import pymongo
 
-_CLIENT = pymongo.MongoClient("mongodb+srv://admin:###CHECK-SECRETS-GOOGLE-DOCS###@cluster0.d83pb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+_CLIENT = pymongo.MongoClient("mongodb+srv://admin:##CHECK_SECRETS##@cluster0.d83pb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
 
 _DATABASE = _CLIENT.get_database("SmartCoffeeMachine")
 
