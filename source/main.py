@@ -2,6 +2,12 @@
     Entry point of the project.
 """
 
+# Load environment.
+# Important to do this BEFORE importing other stuff.
+
+from dotenv import load_dotenv
+load_dotenv()
+
 import client.runner as client_runner
 import server.runner as server_runner
 import argparse
@@ -9,6 +15,7 @@ import logging
 import sys
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+
 
 def main():
     parser = argparse.ArgumentParser("smart-coffee-machine")
