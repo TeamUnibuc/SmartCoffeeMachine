@@ -13,3 +13,6 @@ pymongo
 # FastAPI HTTP lib
 uvicorn[standard]
 fastapi
+
+# Testing
+coverage
