@@ -45,14 +45,17 @@ jobs:
         coverage run -m unittest discover
         coverage xml -o ./coverage/reports/coverage.xml
         
+    - name: Check coverage file
+      run:
+        ls -la coverage/reports
+        
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         env_vars: OS,PYTHON
         fail_ci_if_error: true
-        files: ./coverage/reports/coverage.xml
+        files: coverage/reports/coverage.xml
         flags: unittests
         name: codecov-umbrella
-        path_to_write_report: ./coverage/codecov_report.txt
         verbose: true
