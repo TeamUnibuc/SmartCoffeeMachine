@@ -9,17 +9,6 @@ jobs:
     env:
       OS: ${{ matrix.os }}
       PYTHON: '3.9'
-      
-#     steps:
-#     - uses: actions/checkout@main
-#     - uses: codecov/codecov-action@v2
-#       with:
-#         token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
-#         files: ./coverage1.xml,./coverage2.xml # optional
-#         flags: unittests # optional
-#         name: codecov-umbrella # optional
-#         fail_ci_if_error: false # optional (default = false)
-#         verbose: true # optional (default = false)
 
     steps:
     - uses: actions/checkout@v2
