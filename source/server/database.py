@@ -1,6 +1,11 @@
 import pymongo
+import os
 
-_CLIENT = pymongo.MongoClient("mongodb+srv://admin:##CHECK_SECRETS##@cluster0.d83pb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+_CLIENT = pymongo.MongoClient(
+    f"mongodb+srv://"
+    f"{os.getenv('MONGO_USER')}:{os.getenv('MONGO_PASSWORD')}"
+    f"@{os.getenv('MONGO_CLUSTER')}"
+)
 
 _DATABASE = _CLIENT.get_database("SmartCoffeeMachine")
 
