@@ -26,3 +26,28 @@ Useful links:
 * [FastMQTT](https://pypi.org/project/fastapi-mqtt/)
 * [OpenAPI](https://www.openapis.org/)
 * [AsyncAPI](https://www.asyncapi.com/)
+
+## Evaluare
+
+ * 1 punct  - Oficiu.
+ * 9 puncte - Programul realizat.
+
+### Cerinte (2.5p)
+
+ * Expune un Rest API HTTP – documentat folosind Open API (Swagger) 
+ * Expune un API MQTT – documentat folosind AsyncAPI
+ * Aplicația să aibă minim 5 funcționalități – puteți să vă gândiți la ele ca sell points ale aplicației. Depinde de aplicația pe care v-ați propus să o faceți, dar chestii de genul o funcționalitate e scăderea, o altă funcționalitate e adunarea, nu înseamnă chiar că sunt diferite 
+ * Tot ce faceți să se găsească într-un singur repo.
+
+### Alte Cerinte
+
+ * Toate funcționalitățile și/sau toate endpoints au unit teste asociate. +1.5p
+ * Documentația de analiză este up to date + 1p
+ * Documentația de utilizare reflectă aplicația reală + 1p
+
+### Alte Cerinte
+
+ * Sa prelucram date reale. 1p
+ * Tool de detectare automata a bug-urilor 1.5p
+ * Integration tests 1p
+ * Coverage >80% a testelor 0.5
