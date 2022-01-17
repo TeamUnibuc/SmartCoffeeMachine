@@ -6,7 +6,7 @@ for the module to be discoverable.
 
 import copy
 from typing import List
-
+from pydantic import BaseModel
 
 
 
@@ -14,17 +14,16 @@ from typing import List
 # RECIPES SENT FROM THE SERVER TO THE COFFEE MACHINES #
 #######################################################
 
-class Recipe:
+class Recipe(BaseModel):
     """
         Stores a single recipe.
     """
-    def __init__(self):
-        self.name = ""
-        self.description = ""
-        self.coffee_quantity_mg = 0
-        self.milk_quantity_mg = 0
-        self.water_quantity_mg = 0
-        self.sugar_quantity_mg = 0
+    name: str
+    description: str
+    coffee_quantity_mg: int
+    milk_quantity_mg: int
+    water_quantity_mg: int
+    sugar_quantity_mg: int
 
     def to_dict(self):
         return copy.deepcopy(self.__dict__)
