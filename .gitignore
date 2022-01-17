@@ -23,6 +23,7 @@ lib-cov
 coverage
 *.lcov
 .coverage
+source/coverage.xml
 
 # nyc test coverage
 .nyc_output
