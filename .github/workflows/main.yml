@@ -43,11 +43,11 @@ jobs:
       run: |
         cd source
         coverage run -m unittest discover
-        coverage xml -o ./coverage/reports/coverage.xml
+        coverage xml -o coverage.xml
         
     - name: Check coverage file
       run:
-        ls -la coverage/reports
+        ls -la
         
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
@@ -55,7 +55,7 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         env_vars: OS,PYTHON
         fail_ci_if_error: true
-        files: coverage/reports/coverage.xml
+        files: coverage.xml
         flags: unittests
         name: codecov-umbrella
         verbose: true
