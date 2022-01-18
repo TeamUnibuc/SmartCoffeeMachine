@@ -42,7 +42,7 @@ async def add_new_recipe(recipe_name: str):
     """
     # no recipe was found
     if database.recipes.find({"name": recipe_name}).count() == 0:
-        return {"status": "FAIL", "message": "No recipe was found wit that name"}
+        return {"status": "FAIL", "error_message": "No recipe was found with that name"}
     
     database.recipes.delete_many({"name": recipe_name})
     return {"status": "OK"}
