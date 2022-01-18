@@ -1,0 +1,41 @@
+name: Code Coverage
+on: [push]
+jobs:
+  run:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    env:
+      OS: ${{ matrix.os }}
+      PYTHON: '3.9'
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Setup Python
+      uses: actions/setup-python@main
+      with:
+        python-version: 3.9
+      
+    - name: Install PIP packages
+      uses: py-actions/py-dependency-install@v3
+      with:
+        path: "requirements.txt"
+        
+    - name: Generate coverage report
+      run: |
+        cd source
+        coverage run -m unittest discover
+        coverage xml -o coverage.xml
+        
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        env_vars: OS,PYTHON
+        fail_ci_if_error: true
+        files: coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        verbose: true

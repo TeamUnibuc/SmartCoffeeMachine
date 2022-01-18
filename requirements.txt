@@ -16,3 +16,6 @@ fastapi
 
 # Docker
 dnspython
+
+# Testing
+coverage
