@@ -4,8 +4,10 @@ import common.mqtt_messages as mqtt_messages
 import common.mqtt_connection as mqtt_connection
 import common.mqtt_topics as mqtt_topics
 
-app = FastAPI()
 
+def get_app():
+    app = FastAPI()
+    return app
 
 @app.get("/")
 async def root():
