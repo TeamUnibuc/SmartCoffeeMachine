@@ -121,3 +121,15 @@ def build_coffe_order_log_from_dict(d: dict):
     coffee_order_log = CoffeeOrderLog()
     coffee_order_log.from_dict(d)
     return coffee_order_log
+
+"""
+Use this class to test whatever HTTP endpoint you want
+"""
+class TestObject(BaseModel):
+    message: str
+    
+    def to_dict(self):
+        return copy.deepcopy(self.__dict__)
+    
+    def from_dict(self, d: dict):
+        self.__dict__ = copy.deepcopy(d)

@@ -1,12 +1,14 @@
 import paho.mqtt.client as mqtt
 import json
+import random
+import logging
 from collections import defaultdict
 
 # address of the public broker we use
 _BROKER_ADDRESS = "broker.emqx.io"
 
 # instanciate the client
-_client = mqtt.Client("P1")
+_client: mqtt.Client = None
 _topic_callbacks = defaultdict(lambda: [])
 
 def _on_message(client, userdata, message):
@@ -15,16 +17,39 @@ def _on_message(client, userdata, message):
     """
     try:
         payload = json.loads(str(message.payload.decode("utf-8")))
+        logging.info(f'Received message {payload} on topic {message.topic}')
 
         for fn in _topic_callbacks[message.topic]:
             fn(payload)        
     except:
         pass
 
-_client.on_message = _on_message
-_client.connect(_BROKER_ADDRESS)
-_client.loop_start()
+def _on_connect(client, userdata, flags, rc):
+    if rc == 0:
+        print("Connected to MQTT Broker!")
+    else:
+        print("Failed to connect, return code %d\n", rc)
 
+
+"""
+The paho mqtt clients must have different client ids. The broker disconnects the older client in favor of the new one
+if the clients ids are the same.
+https://stackoverflow.com/questions/40548730/two-paho-mqtt-clients-subscribing-to-the-same-client-localy
+As such, this function will load the client with the given cliend id, and each instance of a machine
+should have a different name. 
+Maybe we can achieve this by having a string of the form "client" + container ip
+For now, the client id is just the entity name and a random number appended
+"""
+def load_client(entity):
+    global _client
+
+    _client = mqtt.Client(entity + str(random.randint(a = int(1e5), b = int(1e10))))
+
+    _client.on_connect = _on_connect
+    _client.on_message = _on_message
+
+    _client.connect(_BROKER_ADDRESS)
+    _client.loop_start()
 
 
 def publish(channel: str, message: object):
@@ -36,6 +61,7 @@ def publish(channel: str, message: object):
     message_dict = message.to_dict()
     message_str = json.dumps(message_dict).encode("utf-8")
     _client.publish(channel, message_str)
+    logging.info(f'Published a message to topic: {channel}')
 
 def register_callback(channel, fn):
     """

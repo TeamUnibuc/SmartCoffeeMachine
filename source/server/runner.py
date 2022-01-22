@@ -4,6 +4,7 @@
 
 import server.MQTT_callbacks as MQTT_callbacks
 import server.fastapi_engine as fastapi_engine
+import common.mqtt_connection as mqtt_connection
 import logging
 import uvicorn
 import os
@@ -25,6 +26,7 @@ def start():
             * Start the Uvicorn HTTP engine.    
     """
     logging.info("Server started.")
+    mqtt_connection.load_client('server')
 
     MQTT_callbacks.register_MQTT_callbacks()
     start_HTTP_engine()
