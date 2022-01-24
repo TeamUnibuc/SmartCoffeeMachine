@@ -1,13 +1,11 @@
 from fastapi import FastAPI
-import server.database as database
+
 import common.mqtt_messages as mqtt_messages
 import common.mqtt_connection as mqtt_connection
 import common.mqtt_topics as mqtt_topics
+from server.database import get_database
 
-
-def get_app():
-    app = FastAPI()
-    return app
+app = FastAPI()
 
 @app.get("/")
 async def root():
@@ -21,7 +19,7 @@ async def view_available_recipes():
     """
     Returns the list of recipes available for the coffee machines
     """
-    recipes = [i for i in database.recipes.find()]
+    recipes = [i for i in get_database().recipes.find()]
     for i in recipes:
         del i['_id']
 
@@ -34,13 +32,13 @@ async def add_new_recipe(recipe: mqtt_messages.Recipe):
     Adds a new recipe to the database
     """
 
-    if database.recipes.count_documents({"drink_name": recipe.drink_name}) > 0:
+    if get_database().recipes.count_documents({"drink_name": recipe.drink_name}) > 0:
         return {
             "status": "FAIL",
             "error_message": "There is already a recipe with this name."
         }
 
-    database.recipes.insert_one(recipe.to_dict())
+    get_database().recipes.insert_one(recipe.to_dict())
 
     # TODO: publish the new recipe to the appropriate MQTT channel
     return {"status": "OK"}
@@ -51,10 +49,10 @@ async def delete_recipe(recipe_name: str):
     Deletes the recipe from the DB assuming it exists
     """
     # no recipe was found
-    if database.recipes.count_documents({"drink_name": recipe_name}) == 0:
+    if get_database().recipes.count_documents({"drink_name": recipe_name}) == 0:
         return {"status": "FAIL", "error_message": "No recipe was found with that name"}
     
-    database.recipes.delete_many({"drink_name": recipe_name})
+    get_database().recipes.delete_many({"drink_name": recipe_name})
 
     return {"status": "OK"}
 
@@ -72,7 +70,7 @@ async def view_order_history():
     Get the list of orders made to any of the coffee machines
     """
 
-    orders = [i for i in database.orders.find()]
+    orders = [i for i in get_database().orders.find()]
     for i in orders:
         del i['_id']
 

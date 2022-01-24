@@ -6,7 +6,6 @@
 # Important to do this BEFORE importing other stuff.
 
 from dotenv import load_dotenv
-load_dotenv()
 
 import client.storage
 import client.runner as client_runner
@@ -15,10 +14,14 @@ import argparse
 import logging
 import sys
 
-logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+def do_global_config():
+    load_dotenv()
+    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 
 
 def main():
+    do_global_config()
+
     parser = argparse.ArgumentParser("smart-coffee-machine")
     parser.add_argument("--entity", type=str, help="Start mode ('client' / 'server')")
     parser.add_argument("--client_ID", type=str, help="ID / Name of the coffee machine", default=None, required=False)

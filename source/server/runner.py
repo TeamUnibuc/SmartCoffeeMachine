@@ -34,7 +34,7 @@ class HTTP_Server(uvicorn.Server):
 def get_HTTP_server():
     host=os.getenv("SERVER_HOST")
     port=int(os.getenv("SERVER_PORT"))
-    app=fastapi_engine.get_app()
+    app=fastapi_engine.app
 
     config = Config(app, host=host, port=port, log_level="info")
     server = HTTP_Server(config)
@@ -67,4 +67,3 @@ def start():
     recipes_broadcast.start_recipes_broadcast()
 
     start_HTTP_engine()
-    
