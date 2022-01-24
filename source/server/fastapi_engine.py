@@ -31,9 +31,15 @@ async def add_new_recipe(recipe: mqtt_messages.Recipe):
     """
     Adds a new recipe to the database
     """
+
+    if database.recipes.count_documents({"drink_name": recipe.drink_name}) > 0:
+        return {
+            "status": "FAIL",
+            "error_message": "There is already a recipe with this name."
+        }
+
     database.recipes.insert_one(recipe.to_dict())
 
-    # TODO: Check the name is unique
     # TODO: publish the new recipe to the appropriate MQTT channel
     return {"status": "OK"}
     
@@ -43,10 +49,11 @@ async def delete_recipe(recipe_name: str):
     Deletes the recipe from the DB assuming it exists
     """
     # no recipe was found
-    if database.recipes.find({"name": recipe_name}).count() == 0:
+    if database.recipes.count_documents({"drink_name": recipe_name}) == 0:
         return {"status": "FAIL", "error_message": "No recipe was found with that name"}
     
-    database.recipes.delete_many({"name": recipe_name})
+    database.recipes.delete_many({"drink_name": recipe_name})
+
     return {"status": "OK"}
 
 @app.post("/publish-test-message")
@@ -56,3 +63,24 @@ async def publish_test_message(test_message: mqtt_messages.TestObject):
         return {"status": "OK"}
     except Exception as e:
         return {"status": "Not OK", "error": str(e)}
+
+@app.post("/view-order-history")
+async def view_order_history():
+    """
+    Get the list of orders made to any of the coffee machines
+    """
+
+    orders = [i for i in database.orders.find()]
+    for i in orders:
+        del i['_id']
+
+    return {"orders": orders}
+
+@app.post("/view-machines-status")
+async def view_machines_status():
+    """
+    Get the current status of each machine
+    """
+
+    # TODO
+    return {"machines": "test"}
