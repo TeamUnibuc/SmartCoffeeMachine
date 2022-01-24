@@ -17,7 +17,7 @@ def get_client():
     global _CLIENT
 
     if _CLIENT == None:  
-        print("Connecting to mongodb")  
+        print(f"Con MONGODB: {_get_db_con_str()}")  
         _CLIENT = pymongo.MongoClient(
             _get_db_con_str()
         )
