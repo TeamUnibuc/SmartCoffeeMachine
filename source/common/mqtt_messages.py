@@ -18,12 +18,13 @@ class Recipe(BaseModel):
     """
         Stores a single recipe.
     """
-    name: str
-    description: str
-    coffee_quantity_mg: int
-    milk_quantity_mg: int
-    water_quantity_mg: int
-    sugar_quantity_mg: int
+    drink_name: str
+    drink_description: str
+    coffee_mg: int
+    milk_mg: int
+    water_mg: int
+    sugar_mg: int
+    milk_foam: bool
 
     def to_dict(self):
         return copy.deepcopy(self.__dict__)
