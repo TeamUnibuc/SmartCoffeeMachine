@@ -10,5 +10,8 @@ COFFEE_MACHINE_LEVELS = _PREFIX + "/coffee-machine-levels"
 # topic where each coffee machine publishes orders
 COFFEE_MACHINE_ORDERS = _PREFIX + "/coffee-machine-orders"
 
+# heartbeat topic
+HEARTBEAT = _PREFIX + "/heartbeat"
+
 # test topic
 TEST_TOPIC = _PREFIX + "/test"

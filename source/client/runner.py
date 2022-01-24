@@ -9,27 +9,32 @@ import logging
 import uvicorn
 import os
 import client.storage as storage
+import client.heartbeat as heartbeat
+import client.mqtt_callbacks as client_mqtt_callbacks
 
-def update_coffee_list(recipes_book_dict: dict):
+def init_machine_levels():
     """
-        Updates the internal coffee list based on info received over MQTT.
-        TODO: Maybe move this function to a more apropriate file.
+        Initialises the machine levels
     """
-    storage.available_recipes = mqtt_messages.build_recipes_book_from_dict(recipes_book_dict)
-    logging.log(
-        f"Successfully updated recipes list."
-        f"Now have {len(storage.available_recipes.recipes)} recipes."
-    )
-
-def test_cb(test_payload: dict):
-    logging.info(f"Test callback function was triggered with payload: {test_payload}")
-    storage.test_storage.append(test_payload['message'])
+    storage.machine_levels.coffee_mg_level = 1000
+    storage.machine_levels.water_mg_level = 1000
+    storage.machine_levels.sugar_mg_level = 1000
+    storage.machine_levels.milk_mg_level = 1000
 
 def start():
-    logging.info("Client started. Trying to register to MQTT...")
+    # Checking the levels
+    init_machine_levels()
+
+    # Start the client -- connect to the MQTT brocker
+    logging.info("Client started. Starting MQTT Server...")    
+    mqtt_connection.load_client("client-" + storage.MACHINE_ID)
+    mqtt_connection.start_client_non_blocking()
     
-    mqtt_connection.load_client('client')
-    mqtt_connection.register_callback(mqtt_topics.AVAILABLE_RECIPES, update_coffee_list)
-    mqtt_connection.register_callback(mqtt_topics.TEST_TOPIC, test_cb)
-    
-    logging.info("Registered recipes update callback.")
+    # Register the callbacks to be called when stuff happens.
+    logging.info("MQTT server started. Registering callbacks...")
+    client_mqtt_callbacks.register_callbacks()
+
+    # Start the heartbeat, sending regular pings to the server.
+    logging.info("MQTT Callbacks registerd. Starting heartbeat...")
+    heartbeat.start_heartbeat()
+    logging.info("Registered heartbeat. Client start successful.")

@@ -36,8 +36,15 @@ def build_recipe_from_dict(d: dict):
     """
         Builds and returns a recipe built from a dict
     """
-    recipe = Recipe()
-    recipe.from_dict(d)
+    recipe = Recipe(
+        drink_name=d["drink_name"],
+        drink_description=d["drink_description"],
+        coffee_mg=d["coffee_mg"],
+        milk_mg=d["milk_mg"],
+        water_mg=d["water_mg"],
+        sugar_mg=d["sugar_mg"],
+        milk_foam=d["milk_foam"],
+    )
     return recipe
 
 class RecipesBook:
@@ -73,11 +80,10 @@ class MachineLevels:
         Class storing the levels of the coffee machine.
     """
     def __init__(self):
-        self.machine_id = ""
-        self.coffee_level = 0
-        self.milk_level = 0
-        self.water_level = 0
-        self.sugar_level = 0
+        self.coffee_mg_level = 0
+        self.milk_mg_level = 0
+        self.water_mg_level = 0
+        self.sugar_mg_level = 0
 
     def to_dict(self):
         return copy.deepcopy(self.__dict__)
@@ -87,11 +93,42 @@ class MachineLevels:
 
 def build_machine_levels_from_dict(d: dict):
     """
-        Builds and returns a recipe built from a dict
+        Builds and returns a machinelevels
     """
     machine_levels = MachineLevels()
     machine_levels.from_dict(d)
     return machine_levels
+
+class Heartbeat:
+    """
+        Class storing a heatbeat
+    """
+    def __init__(self):
+        self.machine_levels: MachineLevels = None
+        self.status: str = ""
+        self.id_machine = ""
+
+    def to_dict(self):
+        return {
+            "machine_levels": self.machine_levels.to_dict(),
+            "status": self.status,
+            "id_machine": self.id_machine,
+        }
+    
+    def from_dict(self, d: dict):
+        self.machine_levels = MachineLevels()
+        self.machine_levels.from_dict(d["machine_levels"])
+        self.id_machine = d["id_machine"]
+        self.status = d["status"]
+
+def build_heartbeat_from_dict(d: dict):
+    """
+        Builds and returns a heartbeat
+    """
+    heartbeat = Heartbeat()
+    heartbeat.from_dict(d)
+    return heartbeat
+
 
 
 class CoffeeOrderLog:

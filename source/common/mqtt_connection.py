@@ -3,6 +3,7 @@ import json
 import random
 import logging
 from collections import defaultdict
+import common.mqtt_topics as mqtt_topics
 
 # address of the public broker we use
 _BROKER_ADDRESS = "broker.emqx.io"
@@ -43,14 +44,27 @@ For now, the client id is just the entity name and a random number appended
 def load_client(entity):
     global _client
 
-    _client = mqtt.Client(entity + str(random.randint(a = int(1e5), b = int(1e10))))
+    _client = mqtt.Client(mqtt_topics._PREFIX + "_" + entity)
 
     _client.on_connect = _on_connect
     _client.on_message = _on_message
 
     _client.connect(_BROKER_ADDRESS)
+
+def start_client_non_blocking():
+    """
+        Starts the client, in a non-blocking way.
+    """
+    global _client
     _client.loop_start()
 
+def start_client_blocking():
+    """
+        Switches the client from running in another thread to running on the 
+        main thread, in a blocking way.
+    """
+    global _client
+    _client.loop_forever()
 
 def publish(channel: str, message: object):
     """

@@ -81,6 +81,7 @@ On this channel, the coffee machines are constantly broadcasting their status to
     "id_machine": "Id of the coffee machine",
     "location": "Location of the machine",
     "status": "WORKING / OUT_OF_SERVICE / NEEDS_RESTOCK / ERROR",
+    "machine_levels": "dict of the type common.mqtt_messages.MachineLevels",
 }
 ```
 
