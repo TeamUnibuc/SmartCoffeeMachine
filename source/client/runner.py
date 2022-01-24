@@ -9,16 +9,6 @@ import logging
 import uvicorn
 import os
 import client.storage as storage
-import client.fastapi_engine as fastapi_engine
-
-def start_HTTP_engine():
-    logging.info("Starting FastAPI engine...")
-    uvicorn.run(
-        fastapi_engine.app,
-        host=os.getenv("SERVER_HOST"),
-        port=os.getenv("SERVER_PORT"),
-        log_level="info"
-    )
 
 def update_coffee_list(recipes_book_dict: dict):
     """
@@ -42,6 +32,4 @@ def start():
     mqtt_connection.register_callback(mqtt_topics.AVAILABLE_RECIPES, update_coffee_list)
     mqtt_connection.register_callback(mqtt_topics.TEST_TOPIC, test_cb)
     
-    start_HTTP_engine()
-
     logging.info("Registered recipes update callback.")
