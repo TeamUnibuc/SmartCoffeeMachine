@@ -13,3 +13,6 @@ import common.mqtt_messages as mqtt_messages
 
 # list of the available recipes
 available_recipes = mqtt_messages.RecipesBook()
+
+# array for storing test messages on the test topic
+test_storage = []

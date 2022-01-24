@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 import server.database as database
-import common.mqtt_messages as mqttt_messages
+import common.mqtt_messages as mqtt_messages
+import common.mqtt_connection as mqtt_connection
+import common.mqtt_topics as mqtt_topics
 
 app = FastAPI()
 
@@ -25,7 +27,7 @@ async def view_available_recipes():
 
 
 @app.post("/add-new-recipe")
-async def add_new_recipe(recipe: mqttt_messages.Recipe):
+async def add_new_recipe(recipe: mqtt_messages.Recipe):
     """
     Adds a new recipe to the database
     """
@@ -53,6 +55,14 @@ async def delete_recipe(recipe_name: str):
     database.recipes.delete_many({"drink_name": recipe_name})
 
     return {"status": "OK"}
+
+@app.post("/publish-test-message")
+async def publish_test_message(test_message: mqtt_messages.TestObject):
+    try:
+        mqtt_connection.publish(mqtt_topics.TEST_TOPIC, test_message)
+        return {"status": "OK"}
+    except Exception as e:
+        return {"status": "Not OK", "error": str(e)}
 
 @app.post("/view-order-history")
 async def view_order_history():
