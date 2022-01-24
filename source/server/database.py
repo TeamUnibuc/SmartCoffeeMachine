@@ -11,3 +11,6 @@ _DATABASE = _CLIENT.get_database("SmartCoffeeMachine")
 
 # stores all of the available recipes
 recipes = _DATABASE.get_collection("Recipes")
+
+# stores the order history
+orders = _DATABASE.get_collection("OrderHistory")
