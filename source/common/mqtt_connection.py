@@ -1,6 +1,5 @@
 import paho.mqtt.client as mqtt
 import json
-import random
 import logging
 from collections import defaultdict
 import common.mqtt_topics as mqtt_topics
@@ -21,7 +20,7 @@ def _on_message(client, userdata, message):
         logging.info(f'Received message {payload} on topic {message.topic}')
 
         for fn in _topic_callbacks[message.topic]:
-            fn(payload)        
+            fn(payload)
     except:
         pass
 
@@ -37,7 +36,7 @@ The paho mqtt clients must have different client ids. The broker disconnects the
 if the clients ids are the same.
 https://stackoverflow.com/questions/40548730/two-paho-mqtt-clients-subscribing-to-the-same-client-localy
 As such, this function will load the client with the given cliend id, and each instance of a machine
-should have a different name. 
+should have a different name.
 Maybe we can achieve this by having a string of the form "client" + container ip
 For now, the client id is just the entity name and a random number appended
 """
@@ -60,7 +59,7 @@ def start_client_non_blocking():
 
 def start_client_blocking():
     """
-        Switches the client from running in another thread to running on the 
+        Switches the client from running in another thread to running on the
         main thread, in a blocking way.
     """
     global _client

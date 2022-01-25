@@ -2,6 +2,8 @@ name: Code Coverage
 on: [push]
 jobs:
   run:
+    environment: CI
+
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -10,13 +12,20 @@ jobs:
       OS: ${{ matrix.os }}
       PYTHON: '3.9'
 
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_PORT: ${{ secrets.SERVER_PORT }}
+      
+      MONGO_USER: ${{ secrets.MONGO_USER }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
+
     steps:
     - uses: actions/checkout@v2
     
     - name: Setup Python
       uses: actions/setup-python@main
       with:
-        python-version: 3.9
+        python-version: '3.9'
       
     - name: Install PIP packages
       uses: py-actions/py-dependency-install@v3
