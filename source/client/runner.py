@@ -2,12 +2,8 @@
     Entry point of the client (coffee machines)
 """
 
-import common.mqtt_connection as mqtt_connection
-import common.mqtt_topics as mqtt_topics
-import common.mqtt_messages as mqtt_messages
 import logging
-import uvicorn
-import os
+import common.mqtt_connection as mqtt_connection
 import client.storage as storage
 import client.heartbeat as heartbeat
 import client.mqtt_callbacks as client_mqtt_callbacks
@@ -26,10 +22,10 @@ def start():
     init_machine_levels()
 
     # Start the client -- connect to the MQTT brocker
-    logging.info("Client started. Starting MQTT Server...")    
+    logging.info("Client started. Starting MQTT Server...")
     mqtt_connection.load_client("client-" + storage.MACHINE_ID)
     mqtt_connection.start_client_non_blocking()
-    
+
     # Register the callbacks to be called when stuff happens.
     logging.info("MQTT server started. Registering callbacks...")
     client_mqtt_callbacks.register_callbacks()

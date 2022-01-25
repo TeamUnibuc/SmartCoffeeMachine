@@ -1,8 +1,7 @@
 import os, sys
-import unittest
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
+import unittest
 import common.mqtt_connection as mqtt_connection
 import common.mqtt_messages as mqtt_messages
 from main import do_global_config

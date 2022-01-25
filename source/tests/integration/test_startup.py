@@ -1,9 +1,6 @@
 import os, sys
-
-
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
 
-import logging
 import unittest
 from main import do_global_config
 from server.runner import get_HTTP_server
@@ -25,11 +22,6 @@ class TestStartup(unittest.TestCase):
         recipes = get_recipes()
         nr_rec = recipes.count_documents({})
         print("total number of recipes", nr_rec)
-        
-
-    # def test_one(self):
-    #     print("\nI am one")
-    #     print(f"Mongo USER: {os.getenv('MONGO_USER')}")
 
 if __name__ == '__main__':
     print("ceva")

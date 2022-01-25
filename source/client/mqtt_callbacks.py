@@ -2,15 +2,11 @@
     Callbacks used by the client to handle MQTT connections.
 """
 
-
 import common.mqtt_connection as mqtt_connection
 import common.mqtt_topics as mqtt_topics
 import common.mqtt_messages as mqtt_messages
 import logging
-import uvicorn
-import os
 import client.storage as storage
-import client.heartbeat as heartbeat
 
 def update_coffee_list(recipes_book_dict: dict):
     """
@@ -29,4 +25,3 @@ def test_cb(test_payload: dict):
 def register_callbacks():
     mqtt_connection.register_callback(mqtt_topics.AVAILABLE_RECIPES, update_coffee_list)
     mqtt_connection.register_callback(mqtt_topics.TEST_TOPIC, test_cb)
-    

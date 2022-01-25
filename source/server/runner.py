@@ -3,16 +3,15 @@
 """
 
 import contextlib
-import threading
-import time
-import server.MQTT_callbacks as MQTT_callbacks
-import server.fastapi_engine as fastapi_engine
-import common.mqtt_connection as mqtt_connection
-import server.recipes_broadcast as recipes_broadcast
+import threading, time, os
 import logging
 import uvicorn
 from uvicorn import Config
-import os
+
+import server.MQTT_callbacks as MQTT_callbacks
+import server.fastapi_engine as fastapi_engine
+import server.recipes_broadcast as recipes_broadcast
+import common.mqtt_connection as mqtt_connection
 
 class HTTP_Server(uvicorn.Server):
     def install_signal_handlers(self) -> None:
@@ -54,7 +53,7 @@ def start():
         Starts the server.
         We:
             * Register callbacks, which will get triggered when we receive something over MQTT.
-            * Start the Uvicorn HTTP engine.    
+            * Start the Uvicorn HTTP engine.
     """
     logging.info("Server started.")
     mqtt_connection.load_client('server')
