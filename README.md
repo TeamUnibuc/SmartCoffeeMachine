@@ -1,6 +1,6 @@
 # SmartCoffeeMachine
 
-[![CI](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml/badge.svg)](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml) &ensp; 
+[![CI](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml/badge.svg?branch=main)](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml) &ensp; 
 [![codecov](https://codecov.io/gh/TeamUnibuc/SmartCoffeeMachine/branch/main/graph/badge.svg?token=BP7YZ5JUDZ)](https://codecov.io/gh/TeamUnibuc/SmartCoffeeMachine)
 
 ## Start The Project
