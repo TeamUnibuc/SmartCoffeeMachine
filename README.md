@@ -1,5 +1,7 @@
 # SmartCoffeeMachine
 
+[![CI](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml/badge.svg)](https://github.com/TeamUnibuc/SmartCoffeeMachine/actions/workflows/coverage.yml)
+
 ## Start The Project
 
  * Install `Docker` and `Docker-Compose`.
