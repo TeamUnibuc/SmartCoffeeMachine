@@ -10,7 +10,14 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     env:
       OS: ${{ matrix.os }}
-      PYTHON: '3.10'
+      PYTHON: '3.10.2'
+
+      SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_PORT: ${{ secrets.SERVEER_PORT }}
+      
+      MONGO_USER: ${{ secrets.MONGO_USER }}
+      MONGO_PASSWORD: ${{ secrets.MONGO_PASSWORD }}
+      MONGO_CLUSTER: ${{ secrets.MONGO_CLUSTER }}
 
     steps:
     - uses: actions/checkout@v2
