@@ -12,8 +12,21 @@ class TestMainWithoutArgs(unittest.TestCase):
         do_global_config()
 
     def test_main_without_args(self):
-        main.main()
+        try:
+            main.main()
+            self.fail()
+        except:
+            pass
 
+    def test_main_with_bad_args(self):
+        initial_args = sys.argv
+        try:
+            sys.argv = ["testing", "--entity", "some-bad-entity"]
+            main.main()
+        except:
+            self.fail()
+
+        sys.argv = initial_args
 
 if __name__ == '__main__':
     unittest.main()
