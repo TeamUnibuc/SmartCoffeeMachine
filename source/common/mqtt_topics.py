@@ -13,5 +13,5 @@ COFFEE_MACHINE_ORDERS = _PREFIX + "/coffee-machine-orders"
 # heartbeat topic
 HEARTBEAT = _PREFIX + "/heartbeat"
 
-# test topic
-TEST_TOPIC = _PREFIX + "/test"
+# topic where we can simulate a coffee order
+COFFEE_ORDER_TOPIC = _PREFIX + "/coffee-order-request"

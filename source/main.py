@@ -15,7 +15,7 @@ import sys
 # Important to do this BEFORE importing other stuff.
 def do_global_config():
     load_dotenv()
-    logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
+    logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def main():

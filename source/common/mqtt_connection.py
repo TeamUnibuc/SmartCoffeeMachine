@@ -15,9 +15,10 @@ def _on_message(client, userdata, message):
     """
         Function handling any message received.
     """
+    logging.debug(f"Received message on {message.topic}")
     try:
         payload = json.loads(str(message.payload.decode("utf-8")))
-        logging.info(f'Received message {payload} on topic {message.topic}')
+        logging.debug(f'Received message {payload} on topic {message.topic}')
 
         for fn in _topic_callbacks[message.topic]:
             fn(payload)
@@ -57,14 +58,6 @@ def start_client_non_blocking():
     global _client
     _client.loop_start()
 
-def start_client_blocking():
-    """
-        Switches the client from running in another thread to running on the
-        main thread, in a blocking way.
-    """
-    global _client
-    _client.loop_forever()
-
 def publish(channel: str, message: object):
     """
         Publish a message to a given channel.
@@ -74,7 +67,7 @@ def publish(channel: str, message: object):
     message_dict = message.to_dict()
     message_str = json.dumps(message_dict).encode("utf-8")
     _client.publish(channel, message_str)
-    logging.info(f'Published a message to topic: {channel}')
+    logging.debug(f'Published a message to topic: {channel}')
 
 def register_callback(channel, fn):
     """

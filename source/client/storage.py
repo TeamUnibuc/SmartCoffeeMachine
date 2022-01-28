@@ -21,3 +21,6 @@ machine_levels = mqtt_messages.MachineLevels()
 
 # status of the machine
 machine_status = "WORKING"
+
+# quantity of milk required for foam
+MILK_MG_FOR_FOAM = 1
