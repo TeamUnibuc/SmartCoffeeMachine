@@ -15,7 +15,6 @@ def _on_message(client, userdata, message):
     """
         Function handling any message received.
     """
-    logging.debug(f"Received message on {message.topic}")
     try:
         payload = json.loads(str(message.payload.decode("utf-8")))
         logging.debug(f'Received message {payload} on topic {message.topic}')
