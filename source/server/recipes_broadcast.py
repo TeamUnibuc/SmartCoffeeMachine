@@ -16,7 +16,7 @@ def _recipes_sender():
         Sends a signal every _RECPIES_SECONDS_DELAY
     """
     while True:
-        recipes = [i for i in database.recipes.find()]
+        recipes = [i for i in database.get_recipes().find()]
         for i in recipes:
             del i['_id']
         recipes_book = mqtt_messages.build_recipes_book_from_dict({"recipes": recipes})

@@ -22,7 +22,7 @@ def start():
     init_machine_levels()
 
     # Start the client -- connect to the MQTT brocker
-    logging.info("Client started. Starting MQTT Server...")
+    logging.info(f"Client {storage.MACHINE_ID} started. Starting MQTT Server...")
     mqtt_connection.load_client("client-" + storage.MACHINE_ID)
     mqtt_connection.start_client_non_blocking()
 

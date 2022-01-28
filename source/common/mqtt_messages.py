@@ -138,6 +138,7 @@ class CoffeeOrderLog:
     def __init__(self):
         self.machine_id = ""
         self.coffee_name = ""
+        self.success = False
         self.machine_levels: MachineLevels = None
 
     def to_dict(self):
@@ -145,12 +146,14 @@ class CoffeeOrderLog:
             "machine_id": self.machine_id,
             "coffee_name": self.coffee_name,
             "machine_levels": self.machine_levels.to_dict(),
+            "success": self.success
         }
 
     def from_dict(self, d: dict):
         self.machine_id = d["machine_id"]
         self.coffee_name = d["coffee_name"]
         self.machine_levels = build_machine_levels_from_dict(d["machine_levels"])
+        self.success = d["success"]
 
 def build_coffe_order_log_from_dict(d: dict):
     """
@@ -159,6 +162,28 @@ def build_coffe_order_log_from_dict(d: dict):
     coffee_order_log = CoffeeOrderLog()
     coffee_order_log.from_dict(d)
     return coffee_order_log
+
+
+class CoffeeOrderRequest(BaseModel):
+    """
+        Coffee order, sent on an MQTT channel,
+        to signal a certain coffee machine to try to make a
+        coffee.
+    """
+    recipient_machine_id: str
+    coffee_name: str
+
+    def to_dict(self):
+        return copy.deepcopy(self.__dict__)
+
+def build_coffee_order_request(d: dict):
+    """
+        Builds a CoffeeOrderSimulatorRequest object.
+    """
+    return CoffeeOrderRequest(
+        recipient_machine_id=d["recipient_machine_id"],
+        coffee_name=d["coffee_name"]
+    )
 
 """
 Use this class to test whatever HTTP endpoint you want

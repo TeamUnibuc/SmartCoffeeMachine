@@ -1,7 +1,7 @@
+import logging
+from pkgutil import get_data
 import pymongo
 import os
-
-from typing import Callable
 
 def _get_db_con_str():
     return \
@@ -9,32 +9,43 @@ def _get_db_con_str():
         f"{os.getenv('MONGO_USER')}:{os.getenv('MONGO_PASSWORD')}" \
         f"@{os.getenv('MONGO_CLUSTER')}"
 
-def _global_updater(varname: str, what: Callable):
-    if varname not in globals() or globals()[varname] == None:
-        globals()[varname] = what()
-    return globals()[varname]
+_CLIENT = None
+_DATABASE = None
+_RECIPES = None
+_ORDERS = None
 
-def _get_client():
-    return _global_updater('_CLIENT', lambda: \
-        pymongo.MongoClient(
+def get_client():
+    global _CLIENT
+
+    if _CLIENT == None:  
+        logging.debug(f"conection string: {_get_db_con_str()}")  
+        _CLIENT = pymongo.MongoClient(
             _get_db_con_str()
         )
-    )
+    return _CLIENT
 
 
 def get_database():
-    return _global_updater('_DATABASE', lambda: \
-        _get_client().get_database("SmartCoffeeMachine")
-    )
+    global _DATABASE
+
+    if _DATABASE == None:
+        _DATABASE = get_client().get_database("SmartCoffeeMachine")
+    return _DATABASE
 
 # stores the order history
 def get_orders():
-    return _global_updater('_ORDERS', lambda: \
-        get_database().get_collection("OrderHistory")
-    )
+    global _ORDERS
+
+    if _ORDERS == None:
+        _ORDERS = get_database().get_collection("OrderHistory")
+
+    return _ORDERS
 
 # stores all of the available recipes
 def get_recipes():
-    return _global_updater('_RECIPES', lambda: \
-        get_database().get_collection("Recipes")
-    )
+    global _RECIPES
+
+    if _RECIPES == None:
+        _RECIPES = get_database().get_collection("Recipes")
+
+    return _RECIPES

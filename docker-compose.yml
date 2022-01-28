@@ -11,11 +11,19 @@ services:
           && /opt/conda/bin/python3 main.py --entity=server"
         ports:
             - "5000:5000"
-    client:
+    client1:
         image: continuumio/anaconda3
         volumes:
             - .:/project
         working_dir: /project/source
         command: >
           bash -c "/opt/conda/bin/pip3 install -r /project/requirements.txt
-          && /opt/conda/bin/python3 main.py --entity=client --client_ID=SomeID"
+          && /opt/conda/bin/python3 main.py --entity=client --client_ID=CLIENT-1"
+    client2:
+        image: continuumio/anaconda3
+        volumes:
+            - .:/project
+        working_dir: /project/source
+        command: >
+          bash -c "/opt/conda/bin/pip3 install -r /project/requirements.txt
+          && /opt/conda/bin/python3 main.py --entity=client --client_ID=CLIENT-2"
