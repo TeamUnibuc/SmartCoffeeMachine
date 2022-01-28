@@ -10,7 +10,7 @@ help:
 	@echo "     run integration tests"
 
 test:
-	cd source; python -m unittest
+	cd source; coverage run -m unittest; coverage xml
 
 unit-test:
 	cd source/tests/unit; python -m unittest
