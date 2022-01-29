@@ -28,6 +28,7 @@ def listen_to_requests_callback(request_dict: dict):
 
     # not intended for us, just ignore
     if request.recipient_machine_id != storage.MACHINE_ID:
+        logging.debug(f"Ignored request")
         return
 
     logging.info("Received a coffee order. Coffee name: " + request.coffee_name)
@@ -38,7 +39,7 @@ def listen_to_requests_callback(request_dict: dict):
             driver.try_make_coffee(available_coffee)
             return
 
-    logging.info(f"Unable to make coffee! Recipe {request.coffee_name} not found!")
+    logging.info(f"Recipe {request.coffee_name} not found!")
 
 
 def register_callbacks():

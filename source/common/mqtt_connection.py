@@ -19,10 +19,12 @@ def _on_message(client, userdata, message):
         payload = json.loads(str(message.payload.decode("utf-8")))
         logging.debug(f'Received message {payload} on topic {message.topic}')
     except:
+        payload = None
         pass
     
-    for fn in _topic_callbacks[message.topic]:
-        fn(payload)
+    if payload is not None:
+        for fn in _topic_callbacks[message.topic]:
+            fn(payload)
     
 
 def _on_connect(client, userdata, flags, rc):
@@ -66,7 +68,8 @@ def publish(channel: str, message: object):
     """
     message_dict = message.to_dict()
     message_str = json.dumps(message_dict).encode("utf-8")
-    _client.publish(channel, message_str)
+    if _client is not None:
+        _client.publish(channel, message_str)
     logging.debug(f'Published a message to topic: {channel}')
 
 def register_callback(channel, fn):
