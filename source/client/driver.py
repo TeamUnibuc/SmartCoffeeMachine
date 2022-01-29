@@ -50,3 +50,6 @@ def try_make_coffee(recipe: mqtt_messages.Recipe):
     order_log.success = ("Done" if can_make_coffee else "Levels Insufficient")
 
     mqtt_connection.publish(mqtt_topics.COFFEE_MACHINE_ORDERS, order_log)
+
+    if can_make_coffee == False:
+        logging.info("Unable to make coffee!")
