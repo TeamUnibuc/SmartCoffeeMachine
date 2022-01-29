@@ -18,11 +18,12 @@ def _on_message(client, userdata, message):
     try:
         payload = json.loads(str(message.payload.decode("utf-8")))
         logging.debug(f'Received message {payload} on topic {message.topic}')
-
-        for fn in _topic_callbacks[message.topic]:
-            fn(payload)
     except:
         pass
+    
+    for fn in _topic_callbacks[message.topic]:
+        fn(payload)
+    
 
 def _on_connect(client, userdata, flags, rc):
     if rc == 0:

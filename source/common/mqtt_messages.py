@@ -75,16 +75,15 @@ def build_recipes_book_from_dict(d: dict):
 # MESSAGES SENT FROM THE MACHINES TO THE SERVER #
 #################################################
 
-class MachineLevels:
+class MachineLevels(BaseModel):
     """
         Class storing the levels of the coffee machine.
     """
-    def __init__(self):
-        self.coffee_mg_level = 0
-        self.milk_mg_level = 0
-        self.water_mg_level = 0
-        self.sugar_mg_level = 0
-
+    coffee_mg_level: int = 0
+    milk_mg_level: int = 0
+    water_mg_level: int = 0
+    sugar_mg_level: int = 0
+    
     def to_dict(self):
         return copy.deepcopy(self.__dict__)
     
@@ -95,8 +94,12 @@ def build_machine_levels_from_dict(d: dict):
     """
         Builds and returns a machinelevels
     """
-    machine_levels = MachineLevels()
-    machine_levels.from_dict(d)
+    machine_levels = MachineLevels(
+        coffee_mg_level=d["coffee_mg_level"],
+        milk_mg_level=d["milk_mg_level"],
+        sugar_mg_level=d["sugar_mg_level"],
+        water_mg_level=d["water_mg_level"]
+    )
     return machine_levels
 
 class Heartbeat:
@@ -117,7 +120,7 @@ class Heartbeat:
     
     def from_dict(self, d: dict):
         self.machine_levels = MachineLevels()
-        self.machine_levels.from_dict(d["machine_levels"])
+        self.machine_levels = build_machine_levels_from_dict(d["machine_levels"])
         self.id_machine = d["id_machine"]
         self.status = d["status"]
 

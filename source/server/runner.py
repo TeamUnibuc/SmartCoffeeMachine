@@ -12,6 +12,7 @@ import server.MQTT_callbacks as MQTT_callbacks
 import server.fastapi_engine as fastapi_engine
 import server.recipes_broadcast as recipes_broadcast
 import common.mqtt_connection as mqtt_connection
+import server.storage as storage
 
 class HTTP_Server(uvicorn.Server):
     def install_signal_handlers(self) -> None:
@@ -64,5 +65,7 @@ def start():
 
     logging.info("Starting recipe broadcast...")
     recipes_broadcast.start_recipes_broadcast()
+
+    storage.start_storage_cleanup()
 
     start_HTTP_engine()
