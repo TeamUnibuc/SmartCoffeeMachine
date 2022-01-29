@@ -4,6 +4,7 @@ import common.mqtt_messages as mqtt_messages
 import common.mqtt_connection as mqtt_connection
 import common.mqtt_topics as mqtt_topics
 import server.database as database
+import server.storage as storage
 
 app = FastAPI()
 
@@ -40,7 +41,6 @@ async def add_new_recipe(recipe: mqtt_messages.Recipe):
 
     database.get_recipes().insert_one(recipe.to_dict())
 
-    # TODO: publish the new recipe to the appropriate MQTT channel
     return {"status": "OK"}
     
 @app.post("/delete-recipe")
@@ -58,6 +58,7 @@ async def delete_recipe(recipe_name: str):
 
 @app.post("/publish-test-message")
 async def publish_test_message(test_message: mqtt_messages.TestObject):
+    # maybe delete this
     try:
         mqtt_connection.publish(mqtt_topics.TEST_TOPIC, test_message)
         return {"status": "OK"}
@@ -82,8 +83,11 @@ async def view_machines_status():
     Get the current status of each machine
     """
 
-    # TODO
-    return {"machines": "test"}
+    machines = []
+    for id_machine in storage.machines_status:
+        machines.append(storage.machines_status[id_machine])
+
+    return {"machines": machines}
 
 @app.post("/request-new-drink")
 async def order_drink_to_coffee_machine(request: mqtt_messages.CoffeeOrderRequest):

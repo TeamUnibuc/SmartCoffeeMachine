@@ -3,6 +3,7 @@ import common.mqtt_connection as mqtt_connection
 import common.mqtt_topics as mqtt_topics
 import common.mqtt_messages as mqtt_messages
 import server.database as database
+import server.storage as storage
 
 def receive_heartbeat(heartbeat_dict: dict):
     """
@@ -10,6 +11,8 @@ def receive_heartbeat(heartbeat_dict: dict):
     """
     heartbeat = mqtt_messages.build_heartbeat_from_dict(heartbeat_dict)
     logging.debug(f"Received hearbeat from {heartbeat.id_machine}.")
+
+    storage.machines_status[heartbeat.id_machine] = heartbeat_dict
 
 def receive_order(order_dict: dict):
     """
