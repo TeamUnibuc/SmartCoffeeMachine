@@ -1,0 +1,418 @@
+{
+    "openapi": "3.0.2",
+    "servers": [
+        {
+            "url": "http://localhost:5000",
+            "description": "Test endpoint"
+        }
+    ],
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
+    "paths": {
+        "/": {
+            "get": {
+                "summary": "Root",
+                "description": "Root of the project.",
+                "operationId": "root__get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/view-available-recipes": {
+            "get": {
+                "summary": "View Available Recipes",
+                "description": "Returns the list of recipes available for the coffee machines",
+                "operationId": "view_available_recipes_view_available_recipes_get",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/add-new-recipe": {
+            "post": {
+                "summary": "Add New Recipe",
+                "description": "Adds a new recipe to the database",
+                "operationId": "add_new_recipe_add_new_recipe_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Recipe"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/delete-recipe": {
+            "post": {
+                "summary": "Delete Recipe",
+                "description": "Deletes the recipe from the DB assuming it exists",
+                "operationId": "delete_recipe_delete_recipe_post",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Recipe Name",
+                            "type": "string"
+                        },
+                        "name": "recipe_name",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/publish-test-message": {
+            "post": {
+                "summary": "Publish Test Message",
+                "operationId": "publish_test_message_publish_test_message_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TestObject"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/view-order-history": {
+            "post": {
+                "summary": "View Order History",
+                "description": "Get the list of orders made to any of the coffee machines",
+                "operationId": "view_order_history_view_order_history_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/view-machines-status": {
+            "post": {
+                "summary": "View Machines Status",
+                "description": "Get the current status of each machine",
+                "operationId": "view_machines_status_view_machines_status_post",
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/MachinesStatusAnswer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/request-new-drink": {
+            "post": {
+                "summary": "Order Drink To Coffee Machine",
+                "description": "Request a particular coffee machine to deliver a drink",
+                "operationId": "order_drink_to_coffee_machine_request_new_drink_post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CoffeeOrderRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "CoffeeOrderRequest": {
+                "title": "CoffeeOrderRequest",
+                "required": [
+                    "recipient_machine_id",
+                    "coffee_name"
+                ],
+                "type": "object",
+                "properties": {
+                    "recipient_machine_id": {
+                        "title": "Recipient Machine Id",
+                        "type": "string"
+                    },
+                    "coffee_name": {
+                        "title": "Coffee Name",
+                        "type": "string"
+                    }
+                },
+                "description": "Coffee order, sent on an MQTT channel,\nto signal a certain coffee machine to try to make a\ncoffee."
+            },
+            "HTTPValidationError": {
+                "title": "HTTPValidationError",
+                "type": "object",
+                "properties": {
+                    "detail": {
+                        "title": "Detail",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ValidationError"
+                        }
+                    }
+                }
+            },
+            "MachineLevels": {
+                "title": "MachineLevels",
+                "type": "object",
+                "properties": {
+                    "coffee_mg_level": {
+                        "title": "Coffee Mg Level",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "milk_mg_level": {
+                        "title": "Milk Mg Level",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "water_mg_level": {
+                        "title": "Water Mg Level",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    "sugar_mg_level": {
+                        "title": "Sugar Mg Level",
+                        "type": "integer",
+                        "default": 0
+                    }
+                },
+                "description": "Class storing the levels of the coffee machine."
+            },
+            "MachinesStatusAnswer": {
+                "title": "MachinesStatusAnswer",
+                "required": [
+                    "machines"
+                ],
+                "type": "object",
+                "properties": {
+                    "machines": {
+                        "title": "Machines",
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SingleMachineStatusAnswer"
+                        }
+                    }
+                },
+                "description": "Answer to a machine status request."
+            },
+            "Recipe": {
+                "title": "Recipe",
+                "required": [
+                    "drink_name",
+                    "drink_description",
+                    "coffee_mg",
+                    "milk_mg",
+                    "water_mg",
+                    "sugar_mg",
+                    "milk_foam"
+                ],
+                "type": "object",
+                "properties": {
+                    "drink_name": {
+                        "title": "Drink Name",
+                        "type": "string"
+                    },
+                    "drink_description": {
+                        "title": "Drink Description",
+                        "type": "string"
+                    },
+                    "coffee_mg": {
+                        "title": "Coffee Mg",
+                        "type": "integer"
+                    },
+                    "milk_mg": {
+                        "title": "Milk Mg",
+                        "type": "integer"
+                    },
+                    "water_mg": {
+                        "title": "Water Mg",
+                        "type": "integer"
+                    },
+                    "sugar_mg": {
+                        "title": "Sugar Mg",
+                        "type": "integer"
+                    },
+                    "milk_foam": {
+                        "title": "Milk Foam",
+                        "type": "boolean"
+                    }
+                },
+                "description": "Stores a single recipe."
+            },
+            "SingleMachineStatusAnswer": {
+                "title": "SingleMachineStatusAnswer",
+                "required": [
+                    "machine_id",
+                    "last_heartbeat",
+                    "machine_levels"
+                ],
+                "type": "object",
+                "properties": {
+                    "machine_id": {
+                        "title": "Machine Id",
+                        "type": "string"
+                    },
+                    "last_heartbeat": {
+                        "title": "Last Heartbeat",
+                        "type": "number"
+                    },
+                    "machine_levels": {
+                        "$ref": "#/components/schemas/MachineLevels"
+                    }
+                }
+            },
+            "TestObject": {
+                "title": "TestObject",
+                "required": [
+                    "message"
+                ],
+                "type": "object",
+                "properties": {
+                    "message": {
+                        "title": "Message",
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
