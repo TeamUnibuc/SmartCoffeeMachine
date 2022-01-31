@@ -1,0 +1,149 @@
+asyncapi: 2.2.0
+info:
+  title: MQTT API
+  version: 1.0.0
+  description: "MQTT description"
+  license:
+    name: Apache 2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0'
+servers:
+  production:
+    url: 'broker.emqx.io'
+    protocol: mqtt
+    description: Broker used
+defaultContentType: application/json
+channels:
+  'SmartCoffeeMachineMQTT/coffee-order-request':
+   publish:
+     message:
+        $ref: '#/components/messages/coffee-order-request'
+  'SmartCoffeeMachineMQTT/heartbeat':
+   publish:
+     message:
+        $ref: '#/components/messages/heartbeat'
+  'SmartCoffeeMachineMQTT/available-recipes':
+   publish:
+     message:
+        $ref: '#/components/messages/available-recipes'
+  'SmartCoffeeMachineMQTT/coffee-order-log':
+   publish:
+     message:
+        $ref: '#/components/messages/coffee-order-log'
+components:
+  messages:
+    coffee-order-request:
+      name: Coffee Order Request
+      title: Coffee Order Request
+      summary: >-
+        Request a particular coffee machine to make a coffee.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/coffeeOrderPayload'
+    heartbeat:
+      name: Heartbeat
+      title: Heartbeat
+      summary: >-
+        Heartbeat informing the server that the app is running.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/heartbeatPayload'
+    available-recipes:
+      name: List of available recipes
+      title: List of available recipes
+      summary: >-
+        List of available recipes.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/availableRecipesPayload'
+    coffee-order-log:
+      name: Coffee Order Log
+      title: Coffee Order Log
+      summary: >-
+        Send details to the server about each order made by a coffee machine.
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/coffeeOrderLogPayload'
+  schemas:
+    coffeeOrderPayload:
+      type: object
+      properties:
+        recipient-machine-id:
+          type: string
+          description: ID of the machine the request is for.
+        coffee-name:
+          type: string
+          description: name of the coffee.
+    machineLevelsPayload:
+      type: object
+      properties:
+        coffee_mg_level:
+          type: integer
+          description: Level of coffee.
+        milk_mg_level:
+          type: integer
+          description: Level of coffee.
+        sugar_mg_level:
+          type: integer
+          description: Level of coffee.
+        water_mg_level:
+          type: integer
+          description: Level of coffee.
+    coffeeOrderLogPayload:
+      type: object
+      properties:
+        machine-id:
+          type: string
+          description: ID of the machine to which the order was made.
+        coffee-name:
+          type: string
+          description: name of the coffee that was ordered.
+        success:
+          type: boolean
+          description: if the order was successful or not.
+        machine_levels:
+          $ref: '#/components/schemas/machineLevelsPayload'
+          description: levels of the machine
+    heartbeatPayload:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status of the machine.
+        id_machine:
+          type: string
+          description: id of the machine.
+        machine_levels:
+          $ref: '#/components/schemas/machineLevelsPayload'
+          description: levels of the machine
+    recipePayload:
+      type: object
+      properties:
+        drink_name:
+          type: string
+          description: drink_name.
+        drink_description:
+          type: string
+          description: drink_description.
+        coffee_mg:
+          type: string
+          description: coffee_mg.
+        milk_mg:
+          type: string
+          description: milk_mg.
+        water_mg:
+          type: string
+          description: water_mg.
+        sugar_mg:
+          type: string
+          description: sugar_mg.
+        milk_foam:
+          type: boolean
+          description: milk_foam.
+    availableRecipesPayload:
+      type: object
+      properties:
+        recipes:
+          type: array
+          description: list of recipes
+          items:
+            $ref: '#/components/schemas/recipePayload'
