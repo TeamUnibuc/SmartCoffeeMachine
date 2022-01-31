@@ -34,7 +34,6 @@ A drink is represented by the following JSON:
 ```JSON
 {
     "drink_name": "Name of the coffee recipe or Custom Drink for custom made drinks",
-    "drink_price": "4.0 // nu cred ca ne trebuie",
     "drink_description": "The description of the drink", 
     "preparation": {
         "coffee_mg": "10 -> coffee quantity",
@@ -108,37 +107,21 @@ Example of recipes:
 }
 ```
 
-### CoffeeMachines Table
-
-This table keeps the information for each coffee machine.
-
-```JSON
-{
-    "machine_name": "Name of the machine", 
-    "location": "Location of the machine",
-    "status": "WORKING / OUT_OF_SERVICE / NEEDS_RESTOCK / ERROR"
-}
-```
-
 ### OrderHistory Table
 
 This table keeps the information about each order of coffee that was made to any of the coffee machines. 
 
 ```JSON
 {
-    "id_machine": "Id of the coffee machine to which the order was made", 
-    "date": "The date and time the order was made",
-    "drink": "A JSON describing the drink that was ordered"
-        {
-            "drink_name": "Espresso", 
-            "drink_description": "An espresso coffee", 
-            "preparation": {
-                "coffee_mg": 7,
-                "milk_mg": 0,
-                "water_mg": 30,
-                "sugar_mg": 0,
-                "milk_foam": false,
-            },
-        }
+    "machine_id": "Id of the coffee machine to which the order was made", 
+    "coffee_name": "Name of the coffee that was ordered",
+    "success": "True / False, if the order was made successfully or not",
+    "machine_levels": "The remaining levels of the machine to which the order was made",
+    "machine_levels": {
+        "coffee_mg_level": "remaining coffee",
+        "milk_mg_level": "remaining milk",
+        "water_mg_level": "remaining water",
+        "sugar_mg_level": "remaining sugar",
+    }
 }
 ```

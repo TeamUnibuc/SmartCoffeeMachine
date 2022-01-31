@@ -12,7 +12,9 @@ Main routes of the API are:
 * `/add-new-recipe`
 * `/delete-recipe`
 * `/view-order-history`
+* `/view-popular-drinks`
 * `/view-machines-status`
+* `/request-new-drink`
 
 ## Retrieve a list of recipes
 
@@ -25,7 +27,6 @@ Get the list of recipes available for the coffee machines
     "recipes": "List of recipes" ,
     "recipes": [{
         "drink_name": "Name of the coffee recipe",
-        "drink_price": "The price of the drink (in the case it costs money)",
         "drink_description": "The description of the drink", 
         "preparation": {
             "coffee_mg": "coffee quantity",
@@ -48,7 +49,6 @@ Add a new recipe to the database. The name of the recipes must be unique.
 ```JSON
 {
     "drink_name": "Name of the coffee recipe (must be unique)",
-    "drink_price": "The price of the drink (in the case it costs money)",
     "drink_description": "The description of the drink", 
     "preparation": {
         "coffee_mg": "coffee quantity",
@@ -95,22 +95,34 @@ Get the list of orders made to any of the coffee machines.
 {
     "orders": "List of orders" ,
     "orders": [{
-        "id_machine": "Id of the coffee machine to which the order was made", 
-        "date": "The date and time the order was made",
-        "drink": "A JSON describing the drink that was ordered",
-        "drink": {
-            "drink_name": "Name of the coffee recipe or Custom Drink for custom made drinks",
-            "drink_price": "The price of the drink (in the case it costs money)",
-            "drink_description": "The description of the drink", 
-            "preparation": {
-                "coffee_mg": "coffee quantity",
-                "milk_mg": "milk quantity",
-                "water_mg": "water quanity",
-                "sugar_mg": "sugar quantity",
-                "milk_foam": "boolean -> with or without milk foam",
-            },
-        }
+        "machine_id": "Id of the coffee machine to which the order was made", 
+        "coffee_name": "Name of the coffee that was ordered",
+        "success": "True / False, if the order was made successfully or not",
+        "machine_levels": "The remaining levels of the machine to which the order was made",
+        "machine_levels": {
+            "coffee_mg_level": "remaining coffee",
+            "milk_mg_level": "remaining milk",
+            "water_mg_level": "remaining water",
+            "sugar_mg_level": "remaining sugar",
+        },
     }],
+}
+```
+
+## Retrieve a list of popular drinks
+
+Get the list of drinks sorted decreasingly by the number of orders. 
+
+* Address: `/view-popular-drinks`
+* Response `JSON`:
+```JSON
+{
+    "drinks": [
+        [
+            "name of the drink",
+            "a number representing the number of times this drink was ordered"
+        ],
+    ],
 }
 ```
 
@@ -126,10 +138,36 @@ The status can be WORKING / OUT_OF_SERVICE / NEEDS_RESTOCK / ERROR.
 {
     "machines": "List of machines" ,
     "machines": [{
-        "id_machine": "Id of the coffee machine",
-        "location": "Location of the machine",
-        "status": "WORKING / OUT_OF_SERVICE / NEEDS_RESTOCK / ERROR"
+        "machine_id": "Id of the coffee machine",
+        "last_heartbeat": "Last heartbeat timestamp of the machine",
+        "machine_levels": "The remaining levels of the machine",
+        "machine_levels": {
+            "coffee_mg_level": "remaining coffee",
+            "milk_mg_level": "remaining milk",
+            "water_mg_level": "remaining water",
+            "sugar_mg_level": "remaining sugar",
+        },
     }],
+}
+```
+
+## Order a new drink
+
+Request a particular coffee machine to deliver a drink.
+
+* Address: `/request-new-drink`
+* Request `JSON`:
+
+```JSON
+{
+  "recipient_machine_id": "The ID of the coffee machine to which the order will be made",
+  "coffee_name": "The name of the ordered coffee"
+}
+```
+* Response `JSON`:
+```JSON
+{
+   "status": "'OK' if successful, 'FAIL' if not",
 }
 ```
 

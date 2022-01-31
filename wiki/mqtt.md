@@ -8,13 +8,14 @@ For making sure we don't have any interference with other MQTT devices, we will 
 
 The channels exposed by the MQTT broker are:
 
-* receipes
-* order
-* heartbeat
+* `/available-recipes`
+* `/coffee-machine-orders`
+* `/heartbeat`
+* `/coffee-order-request`
 
 ## Channels
 
-### Receipes
+### Available recipes
 
 On this channel, the server is constantly broadcasting the list of available recipes.
 
@@ -27,7 +28,6 @@ On this channel, the server is constantly broadcasting the list of available rec
     "recipes": "List of recipes" ,
     "recipes": [{
         "drink_name": "Name of the coffee recipe",
-        "drink_price": "The price of the drink (in the case it costs money)",
         "drink_description": "The description of the drink", 
         "preparation": {
             "coffee_mg": "coffee quantity",
@@ -40,7 +40,7 @@ On this channel, the server is constantly broadcasting the list of available rec
 }
 ```
 
-### Order
+### Coffee machine orders
 
 On this channel, the coffee machines publish the orders that are made.
 
@@ -50,27 +50,22 @@ On this channel, the coffee machines publish the orders that are made.
 
 ```JSON
 {
-    "id_machine": "Id of the coffee machine to which the order was made", 
-    "date": "The date and time the order was made",
-    "drink": "A JSON describing the drink that was ordered",
-    "drink": {
-        "drink_name": "Name of the coffee recipe or Custom Drink for custom made drinks",
-        "drink_price": "The price of the drink (in the case it costs money)",
-        "drink_description": "The description of the drink", 
-        "preparation": {
-            "coffee_mg": "coffee quantity",
-            "milk_mg": "milk quantity",
-            "water_mg": "water quanity",
-            "sugar_mg": "sugar quantity",
-            "milk_foam": "boolean -> with or without milk foam",
-        },
+    "machine_id": "Id of the coffee machine to which the order was made", 
+    "coffee_name": "Name of the coffee that was ordered",
+    "success": "True / False, if the order was made successfully or not",
+    "machine_levels": "The remaining levels of the machine to which the order was made",
+    "machine_levels": {
+        "coffee_mg_level": "remaining coffee",
+        "milk_mg_level": "remaining milk",
+        "water_mg_level": "remaining water",
+        "sugar_mg_level": "remaining sugar",
     }
 }
 ```
 
 ### Heartbeat
 
-On this channel, the coffee machines are constantly broadcasting their status to the server (if they are 'alive' and if they need refill).
+On this channel, the coffee machines are constantly broadcasting their status to the server.
 
 * `Publishers`: The Coffee Machines
 * `Subscribers`: The Server
@@ -79,9 +74,29 @@ On this channel, the coffee machines are constantly broadcasting their status to
 ```JSON
 {
     "id_machine": "Id of the coffee machine",
-    "location": "Location of the machine",
-    "status": "WORKING / OUT_OF_SERVICE / NEEDS_RESTOCK / ERROR",
-    "machine_levels": "dict of the type common.mqtt_messages.MachineLevels",
+    "status": "WORKING / OUT_OF_SERVICE",
+    "machine_levels": "The remaining levels of the machine",
+    "machine_levels": {
+        "coffee_mg_level": "remaining coffee",
+        "milk_mg_level": "remaining milk",
+        "water_mg_level": "remaining water",
+        "sugar_mg_level": "remaining sugar",
+    },
+}
+```
+
+### Coffee order request
+
+On this channel, we can simulate a coffee order to a particular coffee machine.
+
+* `Publishers`: People that use the coffee machines
+* `Subscribers`: The Coffee Machines
+* Message `JSON`:
+
+```JSON
+{
+  "recipient_machine_id": "The ID of the coffee machine to which the order will be made",
+  "coffee_name": "The name of the ordered coffee"
 }
 ```
 
