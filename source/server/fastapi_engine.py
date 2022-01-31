@@ -48,7 +48,7 @@ async def add_new_recipe(recipe: mqtt_messages.Recipe):
     database.get_recipes().insert_one(recipe.to_dict())
 
     return {"status": "OK"}
-    
+
 
 
 @app.post("/delete-recipe")
@@ -59,11 +59,10 @@ async def delete_recipe(recipe_name: str):
     # no recipe was found
     if database.get_recipes().count_documents({"drink_name": recipe_name}) == 0:
         return {"status": "FAIL", "error_message": "No recipe was found with that name"}
-    
+
     database.get_recipes().delete_many({"drink_name": recipe_name})
 
     return {"status": "OK"}
-
 
 
 @app.post("/publish-test-message")
@@ -134,4 +133,3 @@ async def order_drink_to_coffee_machine(request: mqtt_messages.CoffeeOrderReques
     )
 
     return {"status": "OK"}
-    

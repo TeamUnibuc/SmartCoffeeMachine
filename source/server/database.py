@@ -17,8 +17,9 @@ _ORDERS = None
 def get_client():
     global _CLIENT
 
-    if _CLIENT == None:  
-        logging.debug(f"conection string: {_get_db_con_str()}")  
+    if _CLIENT == None:
+        logging.debug(f"conection string: {_get_db_con_str()}")
+        logging.debug(f"Database: {os.getenv('MONGO_DB_NAME')}")
         _CLIENT = pymongo.MongoClient(
             _get_db_con_str()
         )
@@ -29,7 +30,7 @@ def get_database():
     global _DATABASE
 
     if _DATABASE == None:
-        _DATABASE = get_client().get_database("SmartCoffeeMachine")
+        _DATABASE = get_client().get_database(os.getenv("MONGO_DB_NAME"))
     return _DATABASE
 
 # stores the order history
