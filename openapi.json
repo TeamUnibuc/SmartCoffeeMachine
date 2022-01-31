@@ -1,20 +1,19 @@
 {
     "openapi": "3.0.2",
+    "info": {
+        "title": "FastAPI",
+        "version": "0.1.0"
+    },
     "servers": [
         {
             "url": "http://localhost:5000",
             "description": "Test endpoint"
         }
     ],
-    "info": {
-        "title": "FastAPI",
-        "version": "0.1.0"
-    },
     "paths": {
         "/": {
             "get": {
                 "summary": "Root",
-                "description": "Root of the project.",
                 "operationId": "root__get",
                 "responses": {
                     "200": {
@@ -120,20 +119,11 @@
                 }
             }
         },
-        "/publish-test-message": {
-            "post": {
-                "summary": "Publish Test Message",
-                "operationId": "publish_test_message_publish_test_message_post",
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/TestObject"
-                            }
-                        }
-                    },
-                    "required": true
-                },
+        "/view-order-history": {
+            "get": {
+                "summary": "View Order History",
+                "description": "Get the list of orders made to any of the coffee machines",
+                "operationId": "view_order_history_view_order_history_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -142,25 +132,15 @@
                                 "schema": {}
                             }
                         }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
                     }
                 }
             }
         },
-        "/view-order-history": {
-            "post": {
-                "summary": "View Order History",
-                "description": "Get the list of orders made to any of the coffee machines",
-                "operationId": "view_order_history_view_order_history_post",
+        "/view-popular-drinks": {
+            "get": {
+                "summary": "View Popular Drinks",
+                "description": "Get the popularity of all the drinks as a histogram",
+                "operationId": "view_popular_drinks_view_popular_drinks_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -174,10 +154,10 @@
             }
         },
         "/view-machines-status": {
-            "post": {
+            "get": {
                 "summary": "View Machines Status",
                 "description": "Get the current status of each machine",
-                "operationId": "view_machines_status_view_machines_status_post",
+                "operationId": "view_machines_status_view_machines_status_get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -371,19 +351,6 @@
                     },
                     "machine_levels": {
                         "$ref": "#/components/schemas/MachineLevels"
-                    }
-                }
-            },
-            "TestObject": {
-                "title": "TestObject",
-                "required": [
-                    "message"
-                ],
-                "type": "object",
-                "properties": {
-                    "message": {
-                        "title": "Message",
-                        "type": "string"
                     }
                 }
             },
