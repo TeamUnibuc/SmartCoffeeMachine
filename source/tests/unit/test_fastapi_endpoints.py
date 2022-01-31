@@ -1,0 +1,101 @@
+import json
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__)))))
+
+import time
+import random
+import unittest
+from main import do_global_config
+import main
+import server.fastapi_engine as fastapi_engine
+from fastapi.testclient import TestClient
+
+class TestRootEndpoint(unittest.TestCase):
+    def setUpClass() -> None:
+        do_global_config()
+        
+    def test_root_endpoint(self):
+        client = TestClient(fastapi_engine.app)
+        response = client.get("/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_recipe(self):
+        client = TestClient(fastapi_engine.app)
+        response = client.get("/view-available-recipes")
+        self.assertEqual(response.status_code, 200)
+        continut = response.json()
+        self.assertTrue("recipes" in continut)
+
+    def test_add_recipe_invalid_request(self):
+        client = TestClient(fastapi_engine.app)
+        req = {
+            "some-invalid-request": "idk"
+        }
+        response = client.post("/view-available-recipes", json=req)
+        self.assertNotEqual(response.status_code, 200)
+
+    def test_add_recipe_valid_request(self):
+        client = TestClient(fastapi_engine.app)
+        recipe = {
+            "drink_name": "normal_coffee_" + str(random.randint(1, 10**10)),
+            "drink_description": "",
+            "coffee_mg": 10,
+            "milk_mg": 10,
+            "water_mg": 10,
+            "sugar_mg": 10,
+            "milk_foam": False 
+        }
+        response = client.post("/add-new-recipe", json=recipe)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_recipe_existing_name(self):
+        client = TestClient(fastapi_engine.app)
+        recipe = {
+            "drink_name": "normal_coffee_" + str(random.randint(1, 10**10)),
+            "drink_description": "",
+            "coffee_mg": 10,
+            "milk_mg": 10,
+            "water_mg": 10,
+            "sugar_mg": 10,
+            "milk_foam": False 
+        }
+        response = client.post("/add-new-recipe", json=recipe)
+        self.assertEqual(response.status_code, 200)
+        response = client.post("/add-new-recipe", json=recipe)
+        self.assertTrue("status" in response.json() and response.json()["status"] == "FAIL")
+
+    def test_delete_recipe_inexisting_name(self):
+        client = TestClient(fastapi_engine.app)
+
+        response = client.post("/delete-recipe", params={"recipe_name": "inexistent_coffee"})
+        self.assertTrue("status" in response.json() and response.json()["status"] == "FAIL")
+
+    
+    def test_delete_existing_name(self):
+        client = TestClient(fastapi_engine.app)
+        recipe = {
+            "drink_name": "normal_coffee_" + str(random.randint(1, 10**10)),
+            "drink_description": "",
+            "coffee_mg": 10,
+            "milk_mg": 10,
+            "water_mg": 10,
+            "sugar_mg": 10,
+            "milk_foam": False 
+        }
+        response = client.post("/add-new-recipe", json=recipe)
+        self.assertEqual(response.status_code, 200)
+        response = client.post("/delete-recipe", params={"recipe_name": recipe["drink_name"]})
+        self.assertTrue("status" in response.json() and response.json()["status"] == "OK")
+
+    def test_view_order_history(self):
+        client = TestClient(fastapi_engine.app)
+        
+        response = client.get("/view-order-history")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("orders" in response.json())
+    
+    
+    
+
+if __name__ == '__main__':
+    unittest.main()
