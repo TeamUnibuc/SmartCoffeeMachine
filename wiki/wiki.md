@@ -17,7 +17,11 @@ The system is made out of 2 components:
  * For the HTTP connection, we are using the [`FastAPI`](https://fastapi.tiangolo.com/) library.
  * For the MQTT connection, we use the [`paho-mqtt`](https://pypi.org/project/paho-mqtt/) library.
  * For a DB system, we use [MongoDB](https://www.mongodb.com/).
- * This list is TBD.
+ * This list is TBC.
+
+## Specs
+ * OpenAPI Spec: [OpenAPI](../openapi.json)
+ * AsyncAPI Spec: [AsyncAPI](../asyncapi.yaml)
 
 ## Links
 

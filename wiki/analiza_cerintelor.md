@@ -9,11 +9,11 @@ Făcând un “working backwards” de la nevoile acestora (vor să-și primeasc
 
 Obiectivul aplicatiei este de-a transforma aparatele de cafea dintr-o cladire de birouri / spatiu public intr-un network inteligent de aparate interconectate. Obiectivele finale ale aplicatiei sunt:
  * Nivelul de apa / lapte / cafea / zahar din fiecare aparat de cafea poate fi privit online cu ajutorul unor requesturi HTTP trimise controllerului aparatelor de cafea.
- * Administratorul sa poata observa statistici despre folosirea cafelelor, cum ar fi histograme ale folosirii pe zi / aparat de cafea.
+ * TODO: Administratorul sa poata observa statistici despre folosirea cafelelor, cum ar fi histograme ale folosirii pe zi / aparat de cafea.
  * Administratorul poate instala o masina de cafea noua doar conectand-o la retea, aceasta conectandu-se si configurand singura setarile inpuse de administrator.
- * Administratorul poate adauga / modifica / sterge retete si bauturi de cafea, cum ar fi cantitatea de zahar, apa, cafea, lapte etc.
- * Administratorul poate edita meniul principal al aparatelor de cafea, propunand de exemplu "bautura zilei", sau anunturi.
- * Administratorul poate seta setari generale ale aparatului de cafea, cum ar fi temperatura la care aceasta este tinuta calda, daca aparatul face sau nu beep cand apesi pe butoane etc.
+ **Nota:** Deoarece folosim un broker hostat pe internet, conexiunea functioneaza indiferent de retea, dar efectul dorit este atins daca brokerul se afla intr-o retea locala.
+ * Administratorul poate adauga / sterge retete si bauturi de cafea, cum ar fi cantitatea de zahar, apa, cafea, lapte etc.
+ * TODO: Administratorul poate seta setari generale ale aparatului de cafea, cum ar fi temperatura la care aceasta este tinuta calda, daca aparatul face sau nu beep cand apesi pe butoane etc.
 
 ## Grupuri țintă
 
