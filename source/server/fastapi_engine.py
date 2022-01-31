@@ -1,6 +1,7 @@
 import logging
 from typing import List
 from fastapi import FastAPI
+from fastapi.responses import RedirectResponse
 from pydantic import BaseModel
 
 import common.mqtt_messages as mqtt_messages
@@ -13,10 +14,8 @@ app = FastAPI()
 
 @app.get("/")
 async def root():
-    """
-    Root of the project.
-    """
-    return {"message": "Hello World"}
+    response = RedirectResponse(url='/docs')
+    return response
 
 
 
@@ -46,7 +45,7 @@ async def add_new_recipe(recipe: mqtt_messages.Recipe):
         }
 
     database.get_recipes().insert_one(recipe.to_dict())
-
+    
     return {"status": "OK"}
 
 
@@ -65,17 +64,7 @@ async def delete_recipe(recipe_name: str):
     return {"status": "OK"}
 
 
-@app.post("/publish-test-message")
-async def publish_test_message(test_message: mqtt_messages.TestObject):
-    try:
-        mqtt_connection.publish(mqtt_topics.TEST_TOPIC, test_message)
-        return {"status": "OK"}
-    except Exception as e:
-        return {"status": "Not OK", "error": str(e)}
-
-
-
-@app.post("/view-order-history")
+@app.get("/view-order-history")
 async def view_order_history():
     """
     Get the list of orders made to any of the coffee machines
