@@ -17,12 +17,13 @@ class TestStartup(unittest.TestCase):
             self.assertTrue(True)
 
         self.assertTrue(True)
+        pass
 
     def test_mongo_db(self):
         recipes = get_recipes()
         nr_rec = recipes.count_documents({})
         print("total number of recipes", nr_rec)
+        pass
 
 if __name__ == '__main__':
-    print("ceva")
     unittest.main()
