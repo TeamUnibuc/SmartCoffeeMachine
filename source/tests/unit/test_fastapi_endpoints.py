@@ -87,6 +87,7 @@ class TestRootEndpoint(unittest.TestCase):
         response = client.post("/delete-recipe", params={"recipe_name": recipe["drink_name"]})
         self.assertTrue("status" in response.json() and response.json()["status"] == "OK")
 
+
     def test_view_order_history(self):
         client = TestClient(fastapi_engine.app)
         
@@ -94,8 +95,34 @@ class TestRootEndpoint(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTrue("orders" in response.json())
     
+
+    def test_view_popular_drinks(self):
+        client = TestClient(fastapi_engine.app)
+        
+        response = client.get("/view-popular-drinks")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("drinks" in response.json())
     
+
+    def test_view_machines_status(self):
+        client = TestClient(fastapi_engine.app)
+        
+        response = client.get("/view-machines-status")
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue("machines" in response.json())
+
     
+    def test_request_new_drink(self):
+        client = TestClient(fastapi_engine.app)
+        drink_name = "normal_coffee_" + str(random.randint(1, 10**10))
+        new_drink_json = {
+            "recipient_machine_id": "machine1",
+            "coffee_name": drink_name
+        }
+
+        response = client.post("/request-new-drink", json=new_drink_json)
+        self.assertEqual(response.status_code, 200)
+
 
 if __name__ == '__main__':
     unittest.main()
