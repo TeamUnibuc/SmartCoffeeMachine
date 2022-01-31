@@ -78,6 +78,35 @@ async def view_order_history():
 
 
 
+@app.get("/view-popular-drinks")
+async def view_popular_drinks():
+    """
+    Get the popularity of all the drinks as a histogram
+    """
+
+    orders = [i for i in database.get_orders().find({'success': 'Done'})]
+    for i in orders:
+        del i['_id']
+    
+    # get the count of each coffee type
+    order_frequency = dict()
+    for order in orders:
+        if order['coffee_name'] in order_frequency:
+            order_frequency[order['coffee_name']] += 1
+        else:
+            order_frequency[order['coffee_name']] = 1
+
+    result = []
+    for order_name in order_frequency:
+        result.append((order_name, order_frequency[order_name]))
+    
+    # sort in decreasing order by the count
+    result.sort(key = lambda x: -x[1])
+
+    return {"drinks": result}
+
+
+
 class SingleMachineStatusAnswer(BaseModel):
     machine_id: str
     last_heartbeat: float
@@ -90,11 +119,20 @@ class MachinesStatusAnswer(BaseModel):
     machines: List[SingleMachineStatusAnswer]
 
 
-@app.post("/view-machines-status", response_model=MachinesStatusAnswer)
+@app.get("/view-machines-status", response_model=MachinesStatusAnswer)
 async def view_machines_status():
     """
     Get the current status of each machine
     """
+    old_heartbeat_value = storage.coffee_machines_last_heartbeat
+    old_levels_values = storage.coffee_machines_levels
+
+    storage.coffee_machines_last_heartbeat = {
+        'machine1': 1234
+    }
+    storage.coffee_machines_levels = {
+        'machine1': mqtt_messages.MachineLevels()
+    }
 
     logging.info(f"We have {storage.coffee_machines_last_heartbeat}")
 
@@ -108,6 +146,8 @@ async def view_machines_status():
         )
         response.machines.append(machine)
 
+    storage.coffee_machines_last_heartbeat = old_heartbeat_value
+    storage.coffee_machines_levels = old_levels_values
     return response
 
 @app.post("/request-new-drink")
