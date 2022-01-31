@@ -124,16 +124,6 @@ async def view_machines_status():
     """
     Get the current status of each machine
     """
-    old_heartbeat_value = storage.coffee_machines_last_heartbeat
-    old_levels_values = storage.coffee_machines_levels
-
-    storage.coffee_machines_last_heartbeat = {
-        'machine1': 1234
-    }
-    storage.coffee_machines_levels = {
-        'machine1': mqtt_messages.MachineLevels()
-    }
-
     logging.info(f"We have {storage.coffee_machines_last_heartbeat}")
 
     response = MachinesStatusAnswer(machines=[])
@@ -146,8 +136,6 @@ async def view_machines_status():
         )
         response.machines.append(machine)
 
-    storage.coffee_machines_last_heartbeat = old_heartbeat_value
-    storage.coffee_machines_levels = old_levels_values
     return response
 
 @app.post("/request-new-drink")

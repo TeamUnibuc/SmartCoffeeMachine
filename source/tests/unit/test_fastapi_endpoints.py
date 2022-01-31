@@ -8,6 +8,8 @@ import unittest
 from main import do_global_config
 import main
 import server.fastapi_engine as fastapi_engine
+import server.storage as storage
+import common.mqtt_messages as mqtt_messages
 from fastapi.testclient import TestClient
 
 class TestRootEndpoint(unittest.TestCase):
@@ -105,9 +107,23 @@ class TestRootEndpoint(unittest.TestCase):
     
 
     def test_view_machines_status(self):
+        old_heartbeat_value = storage.coffee_machines_last_heartbeat
+        old_levels_values = storage.coffee_machines_levels
+
+        storage.coffee_machines_last_heartbeat = {
+            'machine1': 1234
+        }
+        storage.coffee_machines_levels = {
+            'machine1': mqtt_messages.MachineLevels()
+        }
+
         client = TestClient(fastapi_engine.app)
         
         response = client.get("/view-machines-status")
+
+        storage.coffee_machines_last_heartbeat = old_heartbeat_value
+        storage.coffee_machines_levels = old_levels_values
+
         self.assertEqual(response.status_code, 200)
         self.assertTrue("machines" in response.json())
 
