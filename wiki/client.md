@@ -6,7 +6,7 @@ The client represents a coffee machine.
 
 The communication with the server is done by sending data periodically to the MQTT channel `/heartbeat`
 
-Whenever an coffee is ordered a message is sent to the channel `/coffee-machine-orders`
+Whenever a coffee is ordered a message is sent to the channel `/coffee-machine-orders`
 
 ## Client Logic
 

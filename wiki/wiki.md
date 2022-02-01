@@ -26,6 +26,7 @@ The system is made out of 2 components:
 ## Links
 
  * [`MQTT` connection](./mqtt.md)
+ * [`HTTP` connection](./http.md)
  * [Requirements analysis](./analiza_cerintelor.md)
  * [Client wiki](./client.md)
  * [Server wiki](./server.md)

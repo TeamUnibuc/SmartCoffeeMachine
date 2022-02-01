@@ -46,9 +46,9 @@ MVP-ul consta din:
 
 ### Stocarea datelor
 
-Fiecare masina de cafea isi tine o micro-baza de date, cu lista retetelor, intr-un low-memeory db (see [this](https://stackoverflow.com/questions/47233562/key-value-store-in-python-for-possibly-100-gb-of-data-without-client-server)). **De verificat daca mai facem asta, sau facem o singura DB in mongoDB, cum am zis [aici](./database.md)**.
+Fiecare masina de cafea isi tine lista retetelor in memory. 
 
-Serverul central are o baza de date mai complexa, unde isi salveza statistici despre masinile de cafea, si eventuri.
+Serverul central are o baza de date, unde isi salveza lista retetelor si istoricul comenzilor care au fost facute la oricare dintre aparate.
 
 Datele masinilor de cafea se sincronizeaza automat cu serverul central, si serverul central poate fi alterat numai de persone autorizate (care detin un token hardcodat in server) prin HTTP.
 
@@ -60,4 +60,4 @@ Pentru comunicare, trebuie puse la punct:
 
 ### Procesarea datelor
 
-1. Implementarea funcțiilor ce administrarea căile API-ului
+1. Implementarea funcțiilor ce administreaza căile API-ului
