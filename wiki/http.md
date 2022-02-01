@@ -105,6 +105,7 @@ Get the list of orders made to any of the coffee machines.
             "water_mg_level": "remaining water",
             "sugar_mg_level": "remaining sugar",
         },
+        "timestamp" : "The time the order was placed"
     }],
 }
 ```
@@ -167,7 +168,7 @@ Request a particular coffee machine to deliver a drink.
 * Response `JSON`:
 ```JSON
 {
-   "status": "'OK' if successful, 'FAIL' if not",
+   "status": "'OK' - the order was placed",
 }
 ```
 
