@@ -143,13 +143,15 @@ class CoffeeOrderLog:
         self.coffee_name = ""
         self.success = False
         self.machine_levels: MachineLevels = None
+        self.timestamp = 0.
 
     def to_dict(self):
         return {
             "machine_id": self.machine_id,
             "coffee_name": self.coffee_name,
             "machine_levels": self.machine_levels.to_dict(),
-            "success": self.success
+            "success": self.success,
+            "timestamp": self.timestamp
         }
 
     def from_dict(self, d: dict):
@@ -157,6 +159,7 @@ class CoffeeOrderLog:
         self.coffee_name = d["coffee_name"]
         self.machine_levels = build_machine_levels_from_dict(d["machine_levels"])
         self.success = d["success"]
+        self.timestamp = d["timestamp"]
 
 def build_coffe_order_log_from_dict(d: dict):
     """
