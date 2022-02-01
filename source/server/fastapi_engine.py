@@ -71,6 +71,8 @@ async def view_order_history():
     """
 
     orders = [i for i in database.get_orders().find()]
+
+    orders.sort(key=lambda order: -order["timestamp"])
     for i in orders:
         del i['_id']
 

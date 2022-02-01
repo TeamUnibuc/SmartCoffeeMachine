@@ -9,6 +9,7 @@ import common.mqtt_messages as mqtt_messages
 import client.storage as storage
 import logging
 import client.storage as storage
+import time
 
 def simulate_making_coffee(recipe: mqtt_messages.Recipe):
     """
@@ -48,6 +49,7 @@ def try_make_coffee(recipe: mqtt_messages.Recipe):
     order_log.machine_id = storage.MACHINE_ID
     order_log.machine_levels = storage.machine_levels
     order_log.success = ("Done" if can_make_coffee else "Levels Insufficient")
+    order_log.timestamp = time.time()
 
     mqtt_connection.publish(mqtt_topics.COFFEE_MACHINE_ORDERS, order_log)
 

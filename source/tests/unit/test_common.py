@@ -66,9 +66,10 @@ class TestMQTTMessages(unittest.TestCase):
             "success": "OK",
             "machine_id": "unit_test",
             "coffee_name": "coffee",
+            "timestamp": 123.123
         }
         order_log = mqtt_messages.build_coffe_order_log_from_dict(order_log)
-        self.assertEqual(len(order_log.to_dict()), 4)
+        self.assertEqual(len(order_log.to_dict()), 5)
     
 
 
