@@ -59,7 +59,8 @@ On this channel, the coffee machines publish the orders that are made.
         "milk_mg_level": "remaining milk",
         "water_mg_level": "remaining water",
         "sugar_mg_level": "remaining sugar",
-    }
+    },
+    "timestamp": "The time when the order was placed"
 }
 ```
 
