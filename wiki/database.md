@@ -122,6 +122,7 @@ This table keeps the information about each order of coffee that was made to any
         "milk_mg_level": "remaining milk",
         "water_mg_level": "remaining water",
         "sugar_mg_level": "remaining sugar",
-    }
+    },
+    "timestamp": "The time when the drink was requested"
 }
 ```
