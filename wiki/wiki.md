@@ -34,6 +34,7 @@ The system is made out of 2 components:
  * [Client wiki](./client.md)
  * [Server wiki](./server.md)
  * [Database wiki](./database.md)
+ * [Database wiki](./testing.md)
 
 ## Implementation
  * [Client src files](../source/client)
