@@ -45,7 +45,7 @@ python3 ./build-restler.py --dest_dir ../restler_bin
 5. Compile it
 ```sh
 cd ../restler_bin
-dotnet ./restler/Restler.dll compile --api_spec ./swagger.json
+dotnet ./restler/Restler.dll compile --api_spec ../SmartCoffeeMachine/openapi.json
 ```
 
 6. Run it
